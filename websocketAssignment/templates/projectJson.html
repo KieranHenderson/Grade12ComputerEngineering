@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		Json
+		</title>
+		<link href="../static/projectJson.css" rel="stylesheet" type="text/css">
+		<script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function(){
+                namespace = '/test'; //set the name space (location) of the socket
+                var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //initialize the web socket
+
+                socket.on('my_response', function(msg, cb) { //recieves the data from the python code
+					var out = '';
+					var items = msg.data.replace('{','').replace('}','').replaceAll('"', "").trim().split(','); //get ride of all the decorating symboles 
+					$('#log').empty();
+					for(var i = 0; i < items.length; i++){
+						$('#log').append('<br>' + $('<div/>').text(items[i]).html()); //for each item (led) append the correct information 
+					}
+                    if (cb){
+                        cb(); //call back if needed
+                    }
+                });
+				
+                $('form#broadcast').submit(function(event) { //when the user hits submit send the data to the python code
+                    socket.emit('json', {data: $('#broadcast_data').val()});
+                    return false;
+                });
+			});
+        </script>
+		
+	</head>
+	<body>
+		<h1>Welcome to the JSON portion of the assignement</h1>
+        <span>Please enter a block of JSON code <br> Format: {"PIN1":"ON","PIN2":"ON","PIN3":"OFF","PIN4":"OFF"}</span>
+            <div class="container">
+                <section class="home-about">
+                    <div class="home-about-textbox">
+                        <form id="broadcast" method="POST" action='#'>
+                            <input class = "box" type="text" name="broadcast_data" id="broadcast_data" placeholder="JSON Code">
+                            <input class = "button-form"type="submit" value="Submit">
+                        </form>
+                    </div>
+                </section>
+                <div class = "right">
+					<h2>Log:</h2>
+                    <h3 id="log"></h3>
+                </div>
+            </div>
+        </div>
+        <button class = "button-accent" id="button" onclick = "window.location.href='/'">BACK</button>
+	</body>
+</html>

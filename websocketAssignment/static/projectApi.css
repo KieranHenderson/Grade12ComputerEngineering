@@ -1,0 +1,124 @@
+@import
+url('https://fonts.googleapis.com/css?family=Raleway:300,400,700,900');
+
+*{
+    box-sizing: border-box;
+    transition: all ease-in-out 250ms;
+}
+
+body {
+    margin: 0;
+    font-family: 'Raleway', sans-serif;
+    text-align:center;
+    background:#00ff6c;
+}
+
+h1 {
+    color:#232323;
+    font-weight: 900;
+    font-size: 3.7rem;
+    margin-top: 1em;
+    margin-bottom: 0;
+}
+
+span {
+    color: #232323;
+    font-weight: 300;
+    font-size: 2.5rem;
+    margin-top: 0;
+}
+
+h2{
+    margin-top: 1.5em;
+    color:#232323;
+    font-weight: 600;
+    font-size: 2.5rem;
+    float: left;
+}
+
+h3{
+    margin-top: 1em;
+    margin-left: 0.5em;
+    color: #232323;
+    font-weight: 300;
+    font-size: 2.5rem;
+    float: left;
+}
+
+.right{
+    margin-top: 3em;
+    margin-left: 6em;
+    float: left;
+}
+
+
+
+.home-about-textbox{
+    float:left;
+    margin-top: 4em;
+    margin-left: 2rem;
+    background-color: #232323;
+    padding: 4em;
+    padding-bottom: 8.75em;
+    outline: 2px solid #00ff6c;
+    outline-offset: -2.5em;
+    color: #FFF;
+}
+
+
+input{
+    margin-top: 3rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.box{
+    margin-left: 1rem;
+    font-size: 3rem;
+    color:#232323;
+    background-color: #00ff6c;
+}
+
+.box:focus{
+    outline: none;
+}
+
+.button-form {
+    display: block;
+    font-size: 2rem;
+    margin-left: 11.5em;
+    padding: 0.4em 1.5em;
+    position: absolute;
+    border-width: 2px;
+    border-style: solid;
+    color: #00ff6c;
+    border-color: #00ff6c;
+    background-color: #232323;
+}
+
+.button-form:hover,
+.button-form:focus{
+    background: #00ff6c;
+    color: #232323;
+    outline: none;
+}
+
+.button-accent{
+    margin-left: 75%;
+    margin-top: 25%;
+    display: block;
+    font-size: 2rem;
+    padding: 0.4em 1.5em;
+    position: absolute;
+    border-width: 2px;
+    border-style: solid;
+    color: #232323;
+    border-color: #232323;
+    background: #00ff6c	;
+}
+
+.button-accent:hover,
+.button-accent:focus{
+    background:  #232323;
+    color: #00ff6c;
+}

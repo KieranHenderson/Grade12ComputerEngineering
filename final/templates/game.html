@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		Home
+		</title>
+		<link href="../static/main.css" rel="stylesheet" type="text/css">
+		<script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function(){
+				gameover = false;
+                namespace = '/test'; //set the name space (location) of the socket
+                var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //initialize the web socket
+
+                socket.on('aiTurn', function(button) {
+					if(document.getElementById("myButton"+button).innerHTML == "" && gameover == false){
+						document.getElementById("myButton"+button).innerHTML = "O"; 
+					}
+                });
+
+				socket.on('endGame', function(data) {
+					gameover = true;
+					document.getElementById("winner").innerHTML = data.winner+"'s win!";
+					document.getElementById("myButton"+(data.b1+1).toString()).className = "winning-item"
+					document.getElementById("myButton"+(data.b2+1).toString()).className = "winning-item"
+					document.getElementById("myButton"+(data.b3+1).toString()).className = "winning-item"
+                });
+
+				socket.on('tie', function() {
+					gameover = true;
+					document.getElementById("winner").innerHTML = "You Tied!";
+                });
+				
+                $('div#grid').click(function(event) { //when the submit button is pressed send the data in the form to the python code
+                    socket.emit('update', {b1: $('#myButton1').text(), b2: $('#myButton2').text(), b3: $('#myButton3').text(), b4: $('#myButton4').text(), b5: $('#myButton5').text(), b6: $('#myButton6').text(), b7: $('#myButton7').text(), b8: $('#myButton8').text(), b9: $('#myButton9').text()});
+                    return false;
+                });
+			});
+
+			function change(id){
+					var elem = document.getElementById(id);
+					if (elem.innerHTML=="" && gameover == false) {
+						elem.innerHTML = "X";
+					}
+				}
+
+			function restart(){
+				for(var i = 1; i < 10; i++){
+					var elem = document.getElementById("myButton"+i.toString());
+					elem.className = "grid-item"
+					elem.innerHTML = "";
+				}
+				gameover = false;
+				document.getElementById("winner").innerHTML = "";
+			}
+
+		</script>
+	</head>
+	<body>
+		<h1 class = "h1">Click to play!</h1>
+		<span class = "span" id = "winner"></span>
+		<div class = "center">
+			<div id="grid" class="grid-container" method="POST" action='#'>
+				<button id = "myButton1" class="grid-item" onclick = "change(this.id)"></button>
+				<button id = "myButton2" class="grid-item" onclick = "change(this.id)"></button>
+				<button id = "myButton3" class="grid-item" onclick = "change(this.id)"></button>
+				<button id = "myButton4" class="grid-item" onclick = "change(this.id)"></button>
+				<button id = "myButton5" class="grid-item" onclick = "change(this.id)"></button>
+				<button id = "myButton6" class="grid-item" onclick = "change(this.id)"></button>
+				<button id = "myButton7" class="grid-item" onclick = "change(this.id)"></button>
+				<button id = "myButton8" class="grid-item" onclick = "change(this.id)"></button>
+				<button id = "myButton9" class="grid-item" onclick = "change(this.id)"></button>
+			</div>
+			<div class = "button-container">
+				<button id = "restart" class="button button-accent" onclick = "restart()">Restart</button>
+				<button id = "back" class="button button-accent" onclick = "window.location.href='/'">Back</button>
+			</div>
+		</div>
+	</body>
+</html>

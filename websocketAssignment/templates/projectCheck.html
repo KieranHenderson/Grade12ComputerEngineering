@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		Check Pin
+		</title>
+		<link href="../static/projectApi.css" rel="stylesheet" type="text/css">
+		<script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function(){
+                namespace = '/test'; //set the name space (location) of the socket
+                var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //initialize the web socket
+
+                socket.on('my_response', function(msg, cb) {
+					document.getElementById("log").innerHTML = "The state of pin " + msg.num + " is " + msg.data; //when the info is recieved update the log html
+                });
+
+				socket.on('bad', function(msg, cb) {
+					document.getElementById("log").innerHTML = msg.data; //when bad information is recieved (not a gpio pin) then update the information displayed accordingly 
+                });
+				
+                $('form#broadcast').submit(function(event) { //when the submit button is pressed send the data in the form to the python code
+                    socket.emit('check', {data: $('#broadcast_data').val()});
+                    return false;
+                });
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Welcome to the check pin portion of the assignement</h1>
+        <span>Please enter a GPIO pin number and hit sumbit</span>
+            <div class="container">
+                <section class="home-about">
+                    <div class="home-about-textbox">
+                        <form id="broadcast" method="POST" action='#'>
+                            <input class = "box" type="text" name="broadcast_data" id="broadcast_data" placeholder="GPIO Pin">
+                            <input class = "button-form"type="submit" value="Submit">
+                        </form>
+                    </div>
+                </section>
+                <div class = "right">
+                    <h3 id="log"></h3>
+                </div>
+            </div>
+        </div>
+        <button class = "button-accent" id="button" onclick = "window.location.href='/'">BACK</button>
+	</body>
+</html>

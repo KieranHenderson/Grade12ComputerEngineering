@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		Home
+		</title>
+		<link href="../static/projectHome.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<h1 class = "h1">Welcome to my project home page</h1>
+		<span class = "span">Please navigate to the desired section</span>
+		<div class = "center">
+			<form method="POST" action="/api">
+				<input type="text" name="postal code" placeholder="Postal Code">
+				<input type="submit">
+			</form>
+
+			<form target="_self" method="GET" action='/check'>
+				<input id="myInput" type="text" name="pin" placeholder="Pin Number">
+				<input type="submit" onclick = "window.location.href='/check?pin='+nameElement;return false;">
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		Home
+		</title>
+		<link href="../static/main.css" rel="stylesheet" type="text/css">
+		<script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function(){
+                namespace = '/'; //set the name space (location) of the socket
+                var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //initialize the web socket
+
+				socket.on('play', function(data) {
+					if(data.admit=="True"){
+						document.getElementById("feedback").innerHTML = "Accepted, Game Starting in... " + data.cd;
+					} else {
+						document.getElementById("feedback").innerHTML = "Not Enough Coins, please buy more and wait until this message dissapears before trying again";
+					}
+                });
+
+				socket.on('start', function(data) {
+					
+					if(data.start == "True"){
+						window.location.href='/game';
+					} else {
+						window.location.href='/';
+					}
+					return false;
+                });
+			});
+
+		</script>
+	</head>
+	<body>
+		<h1 class = "h1">Tic Tao Toe, 50 Credits</h1>
+		<span class = "span" id = "feedback"> </span>
+	</body>
+</html>
